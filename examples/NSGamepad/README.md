@@ -105,16 +105,77 @@ differences are listed here for future explorers.
 
 The real gamepad does not have a USB CDC ACM port but NSGamepad does. The
 serial port is also used to upload new sketches so removing it makes the board
-harder to use.
+harder to use. Remember new sketches always can be uploaded by double clicking the
+board RESET button before starting the IDE upload.
+
+To remove the CDC descriptors on Arduino SAMD boards, open the boards.txt file.
+
+```
+$ nano portable/packages/arduino/hardware/samd/1.8.4/boards.txt
+```
+
+Add "-DCDC_DISABLED" to the build.extra_flags as shown below.
+
+```
+# Arduino MKR WiFi 1010
+# --------------------
+mkrwifi1010.name=Arduino MKR WiFi 1010
+.
+.
+.
+mkrwifi1010.build.board=SAMD_MKRWIFI1010
+mkrwifi1010.build.core=arduino
+#mkrwifi1010.build.extra_flags=-DUSE_ARDUINO_MKR_PIN_LAYOUT -D__SAMD21G18A__ {build.usb_flags} -DUSE_BQ24195L_PMIC
+mkrwifi1010.build.extra_flags=-DCDC_DISABLED -DUSE_ARDUINO_MKR_PIN_LAYOUT -D__SAMD21G18A__ {build.usb_flags} -DUSE_BQ24195L_PMIC
+mkrwifi1010.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+mkrwifi1010.build.openocdscript=openocd_scripts/arduino_zero.cfg
+```
+
+The above does not work for Adafruit SAMD boards. To remove CDC descriptors
+comment out "#define CDC_ENABLED" in USBDesc.h.
+
+```
+nano portable/packages/adafruit/hardware/samd/1.5.9/cores/arduino/USB/USBDesc.h
+```
+
+```
+// CDC or HID can be enabled together.
+//#define CDC_ENABLED
+#define PLUGGABLE_USB_ENABLED
+
+#ifdef CDC_ENABLED
+```
 
 ### USB Device Descriptors
 
 The class, subclass, and protocol are different even after the CDC port is
 removed. This can be fixed by changing source files in the board package.
 
+For Arduino SAMD boards, bracket two lines of code in USBCore.cpp with #ifdef CDC_ENABLED/#endif.
+
+```
+nano portable/packages/arduino/hardware/samd/1.8.4/cores/arduino/USB/USBCore.cpp
+```
+
+```
+	{
+#ifdef CDC_ENABLED
+		if (setup.wLength == 8)
+			_cdcComposite = 1;
+#endif
+
+		desc_addr = _cdcComposite ?  (const uint8_t*)&USB_DeviceDescriptorB : (const uint8_t*)&USB_DeviceDescriptor;
+```
+
+For Adafruit SAMD boards, do the same thing but on a different version of the file.
+
+```
+nano portable/packages/adafruit/hardware/samd/1.5.9/cores/arduino/USB/USBCore.cpp
+```
+
 ### OUT Endpoint
 
-The real gamepad has an OUT as well as an IN endpoint. I am guessing the
+The real gamepad has an OUT as well as an IN endpoint. I am guessing the OUT
 endpoint is intended for rumble control but since the controller does not have
-rumble motors nothing is sent to the OUT endpoint.
+rumble motors nothing is sent to the endpoint.
 
