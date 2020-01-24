@@ -47,22 +47,22 @@ THE SOFTWARE.
 #define ATTRIBUTE_PACKED  __attribute__((packed, aligned(1)))
 
 enum NSButtons {
-  NSButton_Minus = 0,
-  NSButton_Plus,
-  NSButton_LeftStick,
-  NSButton_RightStick,
-  NSButton_Home,
-  NSButton_Capture,
-  NSButton_Reserved1,
-  NSButton_Reserved2,
-  NSButton_Y,
+  NSButton_Y = 0,
   NSButton_B,
   NSButton_A,
   NSButton_X,
   NSButton_LeftTrigger,
   NSButton_RightTrigger,
   NSButton_LeftThrottle,
-  NSButton_RightThrottle
+  NSButton_RightThrottle,
+  NSButton_Minus,
+  NSButton_Plus,
+  NSButton_LeftStick,
+  NSButton_RightStick,
+  NSButton_Home,
+  NSButton_Capture,
+  NSButton_Reserved1,
+  NSButton_Reserved2
 };
 
 typedef union ATTRIBUTE_PACKED {
