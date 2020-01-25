@@ -4,8 +4,7 @@ NSGamepad is gamepad software for the Nintendo Switch. It can be used to build
 custom controllers or to create bots to automate boring parts of games. The
 concept is not new and has been done with AVR 32u4, AVR 16u2, and Teensy with
 the LUFA library. This project runs on SAMD processors and can be built using
-the Arduino IDE. It might work in Leonardo and Micro (AVR 32u4) but it has not
-been tested.
+the Arduino IDE. It also works in Leonardo and Micro (AVR 32u4).
 
 NSGamepad not a hardware hack or mod. It is open source USB gamepad software.
 
@@ -89,10 +88,16 @@ mkrwifi1010.build.pid=0x00c1
 mkrwifi1010.bootloader.tool=openocd
 ```
 
-For Adafruit boards, the boards.txt is in a different location.
+For Adafruit SAMD boards, the boards.txt is in a different location.
 
 ```
 $ nano portable/packages/adafruit/hardware/samd/1.5.9/boards.txt
+```
+
+For Arduino Leonardo or Micro, the boards.txt is yet another location.
+
+```
+nano hardware/arduino/avr/boards.txt
 ```
 
 ## USB Descriptor Differences
