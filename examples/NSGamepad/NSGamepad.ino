@@ -15,8 +15,6 @@ const uint8_t BUTTON_PINS[NUM_BUTTONS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
 
 Bounce * buttons = new Bounce[NUM_BUTTONS];
 
-uint32_t startMillis;
-
 void setup() {
   for (int i = 0; i < NUM_BUTTONS; i++) {
     buttons[i].attach( BUTTON_PINS[i] , INPUT_PULLUP  );       //setup the bounce instance for the current button
@@ -28,7 +26,7 @@ void setup() {
 }
 
 void loop() {
-  for (int i = 0; i < NUM_BUTTONS; i++)  {
+  for (int i = 0; i < NUM_BUTTONS; i++) {
     // Update the Bounce instance :
     buttons[i].update();
     // Button fell means button pressed
@@ -40,16 +38,5 @@ void loop() {
     }
   }
 
-  uint32_t endMillis = millis();
-  uint32_t deltaMillis;
-  if (endMillis >= startMillis) {
-    deltaMillis = (endMillis - startMillis);
-  }
-  else {
-    deltaMillis = ((0xFFFFFFFFUL - startMillis) + endMillis);
-  }
-  if (deltaMillis >= 7) {
-    NSGamepad.write();
-    startMillis = millis();
-  }
+  NSGamepad.loop();
 }

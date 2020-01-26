@@ -37,6 +37,22 @@ NSGamepadAPI::NSGamepadAPI(void)
 void NSGamepadAPI::begin(void){
   // release all buttons
   end();
+  startMillis = millis();
+}
+
+void NSGamepadAPI::loop(void){
+  uint32_t endMillis = millis();
+  uint32_t deltaMillis;
+  if (endMillis >= startMillis) {
+    deltaMillis = (endMillis - startMillis);
+  }
+  else {
+    deltaMillis = ((0xFFFFFFFFUL - startMillis) + endMillis);
+  }
+  if (deltaMillis >= 7) {
+    write();
+    startMillis = millis();
+  }
 }
 
 void NSGamepadAPI::end(void){

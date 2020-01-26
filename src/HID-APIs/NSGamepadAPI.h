@@ -105,6 +105,7 @@ class NSGamepadAPI{
 
     inline void begin(void);
     inline void end(void);
+    inline void loop(void);
     inline void write(void);
     inline void press(uint8_t b);
     inline void release(uint8_t b);
@@ -122,6 +123,7 @@ class NSGamepadAPI{
 
   protected:
     HID_NSGamepadReport_Data_t _report;
+    uint32_t startMillis;
 };
 
 // Implementation is inline
