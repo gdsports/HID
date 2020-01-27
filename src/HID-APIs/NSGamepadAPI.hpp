@@ -69,12 +69,12 @@ void NSGamepadAPI::write(void){
 
 
 void NSGamepadAPI::press(uint8_t b){
-  _report.buttons |= (uint16_t)1 << (b - 1);
+  _report.buttons |= (uint16_t)1 << b;
 }
 
 
 void NSGamepadAPI::release(uint8_t b){
-  _report.buttons &= ~((uint16_t)1 << (b - 1));
+  _report.buttons &= ~((uint16_t)1 << b);
 }
 
 
