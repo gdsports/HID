@@ -107,6 +107,7 @@ class NSGamepadAPI{
     inline void end(void);
     inline void loop(void);
     inline void write(void);
+    inline void write(void *report);
     inline void press(uint8_t b);
     inline void release(uint8_t b);
     inline void releaseAll(void);

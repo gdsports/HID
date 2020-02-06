@@ -39,6 +39,7 @@ class SingleNSGamepad_ : public PluggableUSBModule, public NSGamepadAPI
 {
 public:
     SingleNSGamepad_(void);
+    virtual inline void SendReport(void* data, int length) override;
 
 protected:
     // Implementation of the PUSBListNode
@@ -49,7 +50,5 @@ protected:
     EPTYPE_DESCRIPTOR_SIZE epType[1];
     uint8_t protocol;
     uint8_t idle;
-
-    virtual void SendReport(void* data, int length) override;
 };
 extern SingleNSGamepad_ NSGamepad;

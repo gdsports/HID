@@ -57,8 +57,8 @@ void NSGamepadAPI::loop(void){
 
 void NSGamepadAPI::end(void){
   memset(&_report, 0x00, sizeof(_report));
-  _report.leftXAxis = _report.leftYAxis = 0x7f;
-  _report.rightXAxis = _report.rightYAxis = 0x7f;
+  _report.leftXAxis = _report.leftYAxis = 0x80;
+  _report.rightXAxis = _report.rightYAxis = 0x80;
   _report.dPad = NSGAMEPAD_DPAD_CENTERED;
   SendReport(&_report, sizeof(_report));
 }
@@ -67,6 +67,10 @@ void NSGamepadAPI::write(void){
   SendReport(&_report, sizeof(_report));
 }
 
+void NSGamepadAPI::write(void *report){
+  memcpy(&_report, report, sizeof(_report));
+  SendReport(&_report, sizeof(_report));
+}
 
 void NSGamepadAPI::press(uint8_t b){
   _report.buttons |= (uint16_t)1 << b;
@@ -79,7 +83,7 @@ void NSGamepadAPI::release(uint8_t b){
 
 
 void NSGamepadAPI::releaseAll(void){
-  end();
+  _report.buttons = 0;
 }
 
 void NSGamepadAPI::buttons(uint16_t b){
