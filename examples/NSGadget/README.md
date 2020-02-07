@@ -36,10 +36,11 @@ struct NSGamepadEventData
 To use the gadget with a computer such as a Raspberry Pi, connect the Trinket
 M0 TX/RX to RX/TX of a CP2104 USB serial adaptor.
 
-https://www.adafruit.com/product/3309
+[CP2104 breakout board](https://www.adafruit.com/product/3309)
+[Trinket M0](https://www.adafruit.com/product/3500)
 
 Trinket M0  |CP2104
-======================
+------------|---------
 GND         |GND
 TX          |RX
 RX          |TX
@@ -48,20 +49,20 @@ Plugs the CP2104 into a Raspberry Pi. Plugs the Trinket M0 running NSGadget.ino
 into a Nintendo Switch. Be sure to change the Trinket M0 VID/PID as directed in
 the NSGamepad example.
 
-python/nsgpadserial.py
+* python/nsgpadserial.py
 
-    Class that handles formatting data to send over USB serial to the Trinket M0.
+Class that handles formatting data to send over USB serial to the Trinket M0.
 
-python/nsgamepad_test.py
+* python/nsgamepad_test.py
 
-    Example to exercise nsgpadserial.py.
+Example to exercise nsgpadserial.py.
 
-python/nsgamepad_sniffer.py
+* python/nsgamepad_sniffer.py
 
-    Example using nsgpadserial.py to pass through gamepad events from a real
-    HoriPAD gamepad to the NSGadget emulator. The Pi becomes a Pi-in-the-middle
-    gamepad sniffer. Record and playback of gamepad events is possible but not
-    implemented.
+Example using nsgpadserial.py to pass through gamepad events from a real
+HoriPAD gamepad to the NSGadget emulator. The Pi becomes a Pi-in-the-middle
+gamepad sniffer. Record and playback of gamepad events is possible but not
+implemented.
 
 ```
     HoriPAD -> Raspberry Pi -> CP2104 -> Trinket M0 -> Nintendo Switch
@@ -69,12 +70,13 @@ python/nsgamepad_sniffer.py
                  sniffer.py
 ```
 
-python/nsgamepad_le3dp.py
+* python/nsgamepad_le3dp.py
 
-    Example using nsgpadserial.py to use a Logitech Extreme 3D Pro flightstick
-    as a game controller.
+Example using nsgpadserial.py to use a Logitech Extreme 3D Pro flightstick
+as a game controller.
 
+```
     Logitech -> Raspberry Pi -> CP2104 -> Trinket M0 -> Nintendo Switch
     Extreme     nsgamepad_                NSGadget
     3D Pro        le3dp.py
-
+```
