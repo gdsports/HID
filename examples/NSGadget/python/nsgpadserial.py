@@ -3,6 +3,38 @@ Interface to Nintendo Switch Gamepad Gadget (NSGadget.ino) via serial port.
 """
 from struct import *
 import array
+from enum import IntEnum
+
+# Direction pad names
+class NSDPad(IntEnum):
+    """NSDPad direction names"""
+    CENTERED = 0xF
+    UP = 0
+    UP_RIGHT = 1
+    RIGHT = 2
+    DOWN_RIGHT = 3
+    DOWN = 4
+    DOWN_LEFT = 5
+    LEFT = 6
+    UP_LEFT = 7
+
+# Button names
+class NSButton(IntEnum):
+    """NSButton names"""
+    Y = 0
+    B = 1
+    A = 2
+    X = 3
+    LEFT_TRIGGER = 4
+    RIGHT_TRIGGER = 5
+    LEFT_THROTTLE = 6
+    RIGHT_THROTTLE = 7
+    MINUS = 8
+    PLUS = 9
+    LEFT_STICK = 10
+    RIGHT_STICK = 11
+    HOME = 12
+    CAPTURE = 13
 
 class NSGamepadSerial:
     """Nintendo Switch Gamepad Serial Interface"""

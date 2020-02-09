@@ -41,9 +41,10 @@ M0 TX/RX to RX/TX of a CP2104 USB serial adaptor.
 
 Trinket M0  |CP2104
 ------------|---------
-GND         |GND
-TX          |RX
-RX          |TX
+Gnd         |GND
+TX(4)       |RXD
+RX(3)       |TXD
+Bat         |5V
 
 Plugs the CP2104 into a Raspberry Pi. Plugs the Trinket M0 running NSGadget.ino
 into a Nintendo Switch. Be sure to change the Trinket M0 VID/PID as directed in
