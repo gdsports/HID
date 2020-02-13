@@ -22,6 +22,7 @@ void setup() {
 
   // Sends a clean report to the host. This is important on any Arduino type.
   BootKeyboard.begin();
+  Keyboard.begin();
 }
 
 
