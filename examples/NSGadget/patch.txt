@@ -1,0 +1,83 @@
+diff --git a/portable/packages/adafruit/hardware/samd/1.5.10/boards.txt b/portable/packages/adafruit/hardware/samd/1.5.10/boards.txt
+index 9c68368..ee1d5c2 100644
+--- a/portable/packages/adafruit/hardware/samd/1.5.10/boards.txt
++++ b/portable/packages/adafruit/hardware/samd/1.5.10/boards.txt
+@@ -259,8 +259,10 @@ adafruit_trinket_m0.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+ adafruit_trinket_m0.build.openocdscript=openocd_scripts/trinket_m0.cfg
+ adafruit_trinket_m0.build.variant=trinket_m0
+ adafruit_trinket_m0.build.variant_system_lib=
+-adafruit_trinket_m0.build.vid=0x239A
+-adafruit_trinket_m0.build.pid=0x801E
++#adafruit_trinket_m0.build.vid=0x239A
++#adafruit_trinket_m0.build.pid=0x801E
++adafruit_trinket_m0.build.vid=0x0f0d
++adafruit_trinket_m0.build.pid=0x00c1
+ adafruit_trinket_m0.bootloader.tool=openocd
+ adafruit_trinket_m0.bootloader.file=trinketm0/bootloader-trinket_m0-v2.0.0-adafruit.5.bin
+ adafruit_trinket_m0.menu.usbstack.arduino=Arduino
+diff --git a/portable/packages/adafruit/hardware/samd/1.5.10/cores/arduino/USB/USBCore.cpp b/portable/packages/adafruit/hardware/samd/1.5.10/cores/arduino/USB/USBCore.cpp
+index 2154fe5..cd09042 100644
+--- a/portable/packages/adafruit/hardware/samd/1.5.10/cores/arduino/USB/USBCore.cpp
++++ b/portable/packages/adafruit/hardware/samd/1.5.10/cores/arduino/USB/USBCore.cpp
+@@ -222,8 +222,10 @@ bool USBDeviceClass::sendDescriptor(USBSetup &setup)
+ 
+ 	if (t == USB_DEVICE_DESCRIPTOR_TYPE)
+ 	{
++#ifdef CDC_ENABLED
+ 		if (setup.wLength == 8)
+ 			_cdcComposite = 1;
++#endif
+ 
+ 		desc_addr = _cdcComposite ?  (const uint8_t*)&USB_DeviceDescriptorB : (const uint8_t*)&USB_DeviceDescriptor;
+ 
+diff --git a/portable/packages/adafruit/hardware/samd/1.5.10/cores/arduino/USB/USBDesc.h b/portable/packages/adafruit/hardware/samd/1.5.10/cores/arduino/USB/USBDesc.h
+index 1962be3..eb3e82f 100644
+--- a/portable/packages/adafruit/hardware/samd/1.5.10/cores/arduino/USB/USBDesc.h
++++ b/portable/packages/adafruit/hardware/samd/1.5.10/cores/arduino/USB/USBDesc.h
+@@ -20,7 +20,7 @@
+ #define __USBDESC_H__
+ 
+ // CDC or HID can be enabled together.
+-#define CDC_ENABLED
++//#define CDC_ENABLED
+ #define PLUGGABLE_USB_ENABLED
+ 
+ #ifdef CDC_ENABLED
+diff --git a/portable/packages/arduino/hardware/samd/1.8.4/boards.txt b/portable/packages/arduino/hardware/samd/1.8.4/boards.txt
+index 9103895..9531e09 100644
+--- a/portable/packages/arduino/hardware/samd/1.8.4/boards.txt
++++ b/portable/packages/arduino/hardware/samd/1.8.4/boards.txt
+@@ -32,13 +32,15 @@ arduino_zero_edbg.build.usb_product="Arduino Zero"
+ arduino_zero_edbg.build.usb_manufacturer="Arduino LLC"
+ arduino_zero_edbg.build.board=SAMD_ZERO
+ arduino_zero_edbg.build.core=arduino
+-arduino_zero_edbg.build.extra_flags=-D__SAMD21G18A__ {build.usb_flags}
++arduino_zero_edbg.build.extra_flags=-DCDC_DISABLED -D__SAMD21G18A__ {build.usb_flags}
+ arduino_zero_edbg.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+ arduino_zero_edbg.build.openocdscript=openocd_scripts/arduino_zero.cfg
+ arduino_zero_edbg.build.variant=arduino_zero
+ arduino_zero_edbg.build.variant_system_lib=
+-arduino_zero_edbg.build.vid=0x2341
+-arduino_zero_edbg.build.pid=0x804d
++#arduino_zero_edbg.build.vid=0x2341
++#arduino_zero_edbg.build.pid=0x804d
++arduino_zero_edbg.build.vid=0x0f0d
++arduino_zero_edbg.build.pid=0x00c1
+ arduino_zero_edbg.bootloader.tool=openocd
+ arduino_zero_edbg.bootloader.file=zero/samd21_sam_ba.bin
+ 
+diff --git a/portable/packages/arduino/hardware/samd/1.8.4/cores/arduino/USB/USBCore.cpp b/portable/packages/arduino/hardware/samd/1.8.4/cores/arduino/USB/USBCore.cpp
+index c49cc07..2f9d12f 100644
+--- a/portable/packages/arduino/hardware/samd/1.8.4/cores/arduino/USB/USBCore.cpp
++++ b/portable/packages/arduino/hardware/samd/1.8.4/cores/arduino/USB/USBCore.cpp
+@@ -198,8 +198,10 @@ bool USBDeviceClass::sendDescriptor(USBSetup &setup)
+ 
+ 	if (t == USB_DEVICE_DESCRIPTOR_TYPE)
+ 	{
++#ifdef CDC_ENABLED
+ 		if (setup.wLength == 8)
+ 			_cdcComposite = 1;
++#endif
+ 
+ 		desc_addr = _cdcComposite ?  (const uint8_t*)&USB_DeviceDescriptorB : (const uint8_t*)&USB_DeviceDescriptor;
+ 

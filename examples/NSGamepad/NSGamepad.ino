@@ -21,7 +21,7 @@ void setup() {
     buttons[i].interval(25);              // interval in ms
   }
 
-  // Sends a clean report to the host. This is important on any Arduino type.
+  // Sends a clean HID report to the host.
   NSGamepad.begin();
 }
 

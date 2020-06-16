@@ -33,7 +33,7 @@
 // On SAMD boards where the native USB port is also the serial console, use
 // Serial1 for the serial console. This applies to all SAMD boards except for
 // Arduino Zero and M0 boards.
-#if (USB_VID==0x2341 && defined(ARDUINO_SAMD_ZERO)) || (USB_VID==0x2a03 && defined(ARDUINO_SAM_ZERO))
+#if defined(ARDUINO_SAMD_ZERO) || defined(ARDUINO_SAM_ZERO)
 #define SerialDebug SERIAL_PORT_MONITOR
 #else
 #define SerialDebug Serial1
@@ -155,6 +155,12 @@ uint8_t ns_report(uint8_t *buffer, size_t buflen)
             ns_state = 0;
             return ns_buflen;
           }
+          else if (byt == STX) {
+            timeout_ms = millis();
+            ns_state = 1;
+            ns_buflen = 0;
+            return 0;
+          }
           ns_state = 0;
         }
         break;
@@ -163,9 +169,12 @@ uint8_t ns_report(uint8_t *buffer, size_t buflen)
         break;
     }
   }
-  // If STX seen and more than 50 ms, give up and go back to looking for STX
-  if ((ns_state != 0) && (elapsed_mSecs(timeout_ms) > 50)) {
+  // If STX seen and more than 2 ms, give up and go back to looking for STX
+  if ((ns_state != 0) && (elapsed_mSecs(timeout_ms) > 2)) {
     ns_state = 0;
+    static uint32_t timeout_error = 0;
+    timeout_error++;
+    digitalWrite(LED_BUILTIN, timeout_error & 1);
   }
   return 0;
 }
@@ -176,10 +185,10 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
 
-  nsbegin( 8*115200 );
+  nsbegin( 2000000 );
   nssetTimeout(0);
   dbbegin( 115200 );
-  dbprintln();
+  dbprintln("NSGadget setup");
 
 #ifdef ADAFRUIT_TRINKET_M0
   // Turn off built-in Dotstar RGB LED

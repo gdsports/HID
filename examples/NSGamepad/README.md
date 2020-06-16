@@ -33,8 +33,8 @@ On an Ubuntu Linux system, the following creates a directory with a safe
 Arduino IDE workspace.
 
 ```
-$ tar xf ~/Downloads/arduino-1.8.10-linux64.tar.xz
-$ cd arduino-1.8.10
+$ tar xf ~/Downloads/arduino-1.8.12-linux64.tar.xz
+$ cd arduino-1.8.12
 $ mkdir portable
 $ ./arduino &
 ```

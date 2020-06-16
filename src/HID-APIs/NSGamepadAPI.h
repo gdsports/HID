@@ -68,7 +68,7 @@ enum NSButtons {
 typedef union ATTRIBUTE_PACKED {
   uint16_t buttons;
 
-  // 14 Buttons, 4 Axis, 1 D-Pads
+  // 14 Buttons, 4 Axes, 1 D-Pad
   struct ATTRIBUTE_PACKED {
     uint8_t button1 : 1;
     uint8_t button2 : 1;
